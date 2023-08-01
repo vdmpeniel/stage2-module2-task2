@@ -16,9 +16,11 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
             HttpSession session = ((HttpServletRequest) response).getSession();
-            Object user = session.getAttribute("user");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-            dispatcher.forward(request, response);
+
+            if (Objects.isNull(session.getAttribute("user"))) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+                dispatcher.forward(request, response);
+            }
 
         } catch(Exception e) {
             logger.info("Error: " + e.getCause());

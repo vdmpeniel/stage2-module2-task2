@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             RequestDispatcher dispatcher = null;
+
             if (Objects.isNull(session) || Objects.isNull(session.getAttribute("user"))) {
                 dispatcher = request.getRequestDispatcher("/login.jsp");
             } else {
