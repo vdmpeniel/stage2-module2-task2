@@ -27,11 +27,13 @@ public class LoginServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         RequestDispatcher dispatcher;
         if (Users.getInstance().getUsers().contains(login) && !password.isEmpty()){
-            request.getSession().setAttribute("user", login);
+            HttpSession session = request.getSession();
+            session.setAttribute("user", login);
             dispatcher = request.getRequestDispatcher("/user/hello.jsp");
         } else {
             dispatcher = request.getRequestDispatcher("/login.jsp");
