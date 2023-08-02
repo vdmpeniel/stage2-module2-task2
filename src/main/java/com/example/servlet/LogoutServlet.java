@@ -1,8 +1,6 @@
 package com.example.servlet;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +16,12 @@ public class LogoutServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(LogoutServlet.class.getName());
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = httpServletRequest.getSession();
             session.removeAttribute("user");
             session.invalidate();
-            response.sendRedirect("./login.jsp");
+            httpServletResponse.sendRedirect("/login.jsp");
 
         } catch(Exception e) {
             logger.info("Error: " + e.getCause());

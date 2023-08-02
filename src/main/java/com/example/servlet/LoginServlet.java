@@ -2,9 +2,7 @@ package com.example.servlet;
 
 import com.example.Users;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,13 +19,13 @@ public class LoginServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = httpServletRequest.getSession();
             if (Objects.isNull(session) || Objects.isNull(session.getAttribute("user"))) {
-                response.sendRedirect("./login.jsp");
+                httpServletResponse.sendRedirect("/login.jsp");
             } else {
-                response.sendRedirect("./user/hello.jsp");
+                httpServletResponse.sendRedirect("/user/hello.jsp");
             }
 
         } catch(Exception e) {
@@ -36,18 +34,18 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         try {
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
-            if (Users.getInstance().getUsers().contains(login) && !password.isEmpty()) {
-                HttpSession session = request.getSession();
+            String login = httpServletRequest.getParameter("login");
+            String password = httpServletRequest.getParameter("password");
+            if (!password.isEmpty() && Users.getInstance().getUsers().contains(login)) {
+                HttpSession session = httpServletRequest.getSession();
                 session.setAttribute("user", login);
-                response.sendRedirect("./user/hello.jsp");
+                httpServletResponse.sendRedirect("/user/hello.jsp");
 
             } else {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("./login.jsp");
-                dispatcher.forward(request, response);
+                RequestDispatcher requestDispatcher = httpServletRequest.getRequestDispatcher("/login.jsp");
+                requestDispatcher.forward(httpServletRequest, httpServletResponse);
             }
 
         } catch(Exception e) {
