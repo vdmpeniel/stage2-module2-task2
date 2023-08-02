@@ -12,20 +12,10 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 @WebServlet(
-        value = "/logout",
-        initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp")
-        }
+        value = "/logout"
 )
 public class LogoutServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(LogoutServlet.class.getName());
-    private String loginJspPath;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        loginJspPath = config.getInitParameter("LOGIN_JSP_PATH");
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +23,7 @@ public class LogoutServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.removeAttribute("user");
             session.invalidate();
-            response.sendRedirect(loginJspPath);
+            response.sendRedirect("./login.jsp");
 
         } catch(Exception e) {
             logger.info("Error: " + e.getCause());

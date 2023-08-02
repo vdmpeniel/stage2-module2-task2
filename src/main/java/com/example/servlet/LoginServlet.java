@@ -15,32 +15,19 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 @WebServlet(
-        value = "/login",
-        initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp"),
-                @WebInitParam(name = "HELLO_JSP_PATH", value = "./user/hello.jsp")
-        }
+        value = "/login"
 )
 public class LoginServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
-    private String loginJspPath;
-    private String helloJspPath;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        loginJspPath = config.getInitParameter("LOGIN_JSP_PATH");
-        helloJspPath = config.getInitParameter("HELLO_JSP_PATH");
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
             if (Objects.isNull(session) || Objects.isNull(session.getAttribute("user"))) {
-                response.sendRedirect(loginJspPath);
+                response.sendRedirect("./login.jsp");
             } else {
-                response.sendRedirect(helloJspPath);
+                response.sendRedirect("./user/hello.jsp");
             }
 
         } catch(Exception e) {
@@ -56,10 +43,10 @@ public class LoginServlet extends HttpServlet {
             if (Users.getInstance().getUsers().contains(login) && !password.isEmpty()) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", login);
-                response.sendRedirect(helloJspPath);
+                response.sendRedirect("./user/hello.jsp");
 
             } else {
-                RequestDispatcher dispatcher = request.getRequestDispatcher(loginJspPath);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("./login.jsp");
                 dispatcher.forward(request, response);
             }
 
