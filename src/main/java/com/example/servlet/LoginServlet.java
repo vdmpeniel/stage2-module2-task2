@@ -37,13 +37,11 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
-            RequestDispatcher dispatcher = null;
             if (Objects.isNull(session) || Objects.isNull(session.getAttribute("user"))) {
-                dispatcher = request.getRequestDispatcher(loginJspPath);
+                response.sendRedirect(loginJspPath);
             } else {
-                dispatcher = request.getRequestDispatcher(helloJspPath);
+                response.sendRedirect(helloJspPath);
             }
-            dispatcher.forward(request, response);
 
         } catch(Exception e) {
             logger.info("Error: " + e.getCause());
