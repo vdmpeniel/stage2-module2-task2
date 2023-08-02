@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @WebServlet(
         value = "/logout",
         initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp")
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp")
         }
 )
 public class LogoutServlet extends HttpServlet {

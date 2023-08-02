@@ -17,8 +17,8 @@ import java.util.logging.Logger;
 @WebServlet(
         value = "/login",
         initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp"),
-                @WebInitParam(name = "HELLO_JSP_PATH", value = "/user/hello.jsp")
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp"),
+                @WebInitParam(name = "HELLO_JSP_PATH", value = "./user/hello.jsp")
         }
 )
 public class LoginServlet extends HttpServlet {
