@@ -19,8 +19,8 @@ import java.util.logging.Logger;
 @WebServlet(
         value = "/login",
         initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp"),
-                @WebInitParam(name = "HELLO_JSP_PATH", value = "/user/hello.jsp")
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp"),
+                @WebInitParam(name = "HELLO_JSP_PATH", value = "./user/hello.jsp")
         }
 )
 public class LoginServlet extends HttpServlet {
@@ -33,7 +33,6 @@ public class LoginServlet extends HttpServlet {
         super.init(config);
         loginJspPath = config.getInitParameter("LOGIN_JSP_PATH");
         helloJspPath = config.getInitParameter("HELLO_JSP_PATH");
-
     }
 
     @Override
@@ -53,21 +52,21 @@ public class LoginServlet extends HttpServlet {
             logger.info("Error: " + e.getCause());
         }
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
-            RequestDispatcher dispatcher = null;
             if (Users.getInstance().getUsers().contains(login) && !password.isEmpty()) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", login);
-                dispatcher = request.getRequestDispatcher("/user/hello.jsp");
+                response.sendRedirect(helloJspPath);
 
             } else {
-                dispatcher = request.getRequestDispatcher("/login.jsp");
+                RequestDispatcher dispatcher = dispatcher = request.getRequestDispatcher(loginJspPath);
+                dispatcher.forward(request, response);
             }
-            dispatcher.forward(request, response);
 
         } catch(Exception e) {
             logger.info("Error: " + e.getCause());

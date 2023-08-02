@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 @WebServlet(
         value = "/logout",
         initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp")
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp")
         }
 )
 public class LogoutServlet extends HttpServlet {
@@ -28,8 +28,6 @@ public class LogoutServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         loginJspPath = config.getInitParameter("LOGIN_JSP_PATH");
-
-
     }
 
     @Override
@@ -38,7 +36,7 @@ public class LogoutServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.removeAttribute("user");
             session.invalidate();
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher(loginJspPath);
             dispatcher.forward(request, response);
 
         } catch(Exception e) {
