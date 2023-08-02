@@ -61,7 +61,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(helloJspPath);
 
             } else {
-                RequestDispatcher dispatcher = dispatcher = request.getRequestDispatcher(loginJspPath);
+                RequestDispatcher dispatcher = request.getRequestDispatcher(loginJspPath);
                 dispatcher.forward(request, response);
             }
 
