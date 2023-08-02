@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 @WebFilter(
         urlPatterns = "/user/*",
         initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp")
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp")
         }
 )
 public class AuthFilter implements Filter {

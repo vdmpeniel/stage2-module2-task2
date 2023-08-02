@@ -1,7 +1,5 @@
 package com.example.servlet;
 
-import com.example.filter.AuthFilter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,7 +15,7 @@ import java.util.logging.Logger;
 @WebServlet(
         value = "/logout",
         initParams = {
-                @WebInitParam(name = "LOGIN_JSP_PATH", value = "./login.jsp")
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp")
         }
 )
 public class LogoutServlet extends HttpServlet {
@@ -36,8 +34,7 @@ public class LogoutServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.removeAttribute("user");
             session.invalidate();
-            RequestDispatcher dispatcher = request.getRequestDispatcher(loginJspPath);
-            dispatcher.forward(request, response);
+            response.sendRedirect(loginJspPath);
 
         } catch(Exception e) {
             logger.info("Error: " + e.getCause());
