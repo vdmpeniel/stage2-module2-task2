@@ -4,7 +4,9 @@ import com.example.Users;
 import com.example.filter.AuthFilter;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +16,25 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-@WebServlet("/login")
+@WebServlet(
+        value = "/login",
+        initParams = {
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp"),
+                @WebInitParam(name = "HELLO_JSP_PATH", value = "/user/hello.jsp")
+        }
+)
 public class LoginServlet extends HttpServlet {
-    private static final Logger logger = Logger.getLogger(AuthFilter.class.getName());
+    private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
+    private String loginJspPath;
+    private String helloJspPath;
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        loginJspPath = config.getInitParameter("LOGIN_JSP_PATH");
+        helloJspPath = config.getInitParameter("HELLO_JSP_PATH");
+
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,9 +43,9 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher dispatcher = null;
 
             if (Objects.isNull(session) || Objects.isNull(session.getAttribute("user"))) {
-                dispatcher = request.getRequestDispatcher("/login.jsp");
+                dispatcher = request.getRequestDispatcher(loginJspPath);
             } else {
-                dispatcher = request.getRequestDispatcher("/user/hello.jsp");
+                dispatcher = request.getRequestDispatcher(helloJspPath);
             }
             dispatcher.forward(request, response);
 

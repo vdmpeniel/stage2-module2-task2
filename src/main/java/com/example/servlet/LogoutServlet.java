@@ -3,7 +3,9 @@ package com.example.servlet;
 import com.example.filter.AuthFilter;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +14,23 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-@WebServlet("/logout")
+@WebServlet(
+        value = "/logout",
+        initParams = {
+                @WebInitParam(name = "LOGIN_JSP_PATH", value = "/login.jsp")
+        }
+)
 public class LogoutServlet extends HttpServlet {
-    private static final Logger logger = Logger.getLogger(AuthFilter.class.getName());
+    private static final Logger logger = Logger.getLogger(LogoutServlet.class.getName());
+    private String loginJspPath;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        loginJspPath = config.getInitParameter("LOGIN_JSP_PATH");
+
+
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
