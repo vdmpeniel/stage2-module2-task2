@@ -1,8 +1,6 @@
 package com.example.servlet;
 
 import com.example.Users;
-import com.example.filter.AuthFilter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
