@@ -17,16 +17,20 @@ public class AuthFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        try {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+            HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletResponse;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+            HttpSession httpSession = httpServletRequest.getSession();
+            if (httpSession != null && httpSession.getAttribute("user") != null) {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+                httpServletResponse.sendRedirect("/login.jsp");
+            }
 
-        HttpSession httpSession = httpServletRequest.getSession();
-        if (httpSession != null && httpSession.getAttribute("user") != null) {
-            filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            httpServletResponse.sendRedirect("/login.jsp");
+        } catch(IOException | ServletException e){
+            logger.info("Error" + e.getMessage());
+            throw e;
         }
-
     }
 }
