@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 @WebFilter(
-        urlPatterns = "/user/*"
+        urlPatterns = {"/user/*"}
 )
 public class AuthFilter implements Filter {
     private static final Logger logger = Logger.getLogger(AuthFilter.class.getName());
