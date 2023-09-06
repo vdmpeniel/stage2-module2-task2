@@ -28,7 +28,7 @@ An application has a login page. The correct logins are "user" and "admin". The 
 + for **POST** request check the request parameters. "login" should exist in [Users](src/main/java/com/example/Users.java) and the request parameter "password" shouldn't be empty. If parameters are correct set session attribute "user" and redirect to `/user/hello.jsp`, else forward to the `/login.jsp`.
 
 **LogoutServlet** should:
-+ be placed in `com.example.servlet` package.
++ be placed in `com.example.servlet` package.q
 + have url `/logout`.
 + delete session attribute "user".
 + invalidate session.
